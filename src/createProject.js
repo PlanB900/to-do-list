@@ -1,22 +1,37 @@
-export {createProject}
+export {createProject,projects}
 
 function createProject(name) {
 
-    let toDos = []
+    let tasks = []
 
-    function addToDo(obj) {
-        this.toDos.push(obj)
+    function addTask(obj) {
+        this.tasks.push(obj)
     }
 
-    function sortToDo( array ){
-        array.sort(function (a,b) {
+    function sortTasks(){
+        this.tasks.sort((a,b) => {
+            console.log('x')
             return a.priority - b.priority;
         })
     }
 
     return{
+        currentProj:false,
         name: name,
-        toDos,
-        sortToDo
+        tasks,
+        sortTasks,
+        addTask
     }
 }
+
+let projects = (()=>{
+
+
+    let projectList = []
+    let currentProject
+
+    return {
+        projectList,
+        currentProject
+    }
+})()
