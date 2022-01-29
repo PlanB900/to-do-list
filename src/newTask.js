@@ -1,6 +1,7 @@
 import { createTasks } from "./createTasks"
 import { renderTasks } from "./renderTaskAdd"
-import { projects } from "./createProject"
+import { projects, createProject } from "./createProject"
+import { renderProjects } from "./renderHome"
 export {newTask}
 
 
@@ -9,15 +10,20 @@ export {newTask}
 function newTask() {
     let inputs = Array.from(document.getElementsByClassName('taskInput'))
     let taskNameInput = document.getElementById('taskNameInput')
+    let taskDateInput = document.getElementById('taskDateInput')
     let taskDescriptionInput = document.getElementById('taskDescriptionInput')
     let taskPrioritySelect = document.getElementById('taskPrioritySelect')
 
     if(validateInputs(inputs)){
-        let task = createTasks(taskNameInput.value,taskDescriptionInput.value,taskPrioritySelect.value)
+        let task = createTasks(taskNameInput.value,taskDescriptionInput.value,taskPrioritySelect.value,taskDateInput.value)
+        if(!projects.currentProj){
+            projects.currentProj = createProject('Unnamed Project')
+            projects.projectList.push(projects.currentProj)
+            renderProjects(projects.projectList)
+        }
         projects.currentProj.addTask(task)
         projects.currentProj.sortTasks()
         renderTasks(projects.currentProj)
-        //add task to currentProj
     }
 }
 
@@ -31,7 +37,7 @@ function validateInputs(inputs){
             counter++
         }
     })
-    if(counter == 2){
+    if(counter == 3){
         return true
     }
 }

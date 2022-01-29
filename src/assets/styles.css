@@ -35,7 +35,6 @@ body {
     flex-flow:column nowrap;
 
     width:500px;
-    height:500px;
     margin-top:50px;
     border-style:solid;
     border-width:1px;
@@ -82,4 +81,20 @@ input {
 
 .emptyInput {
     border-color:rgb(167, 65, 65, 0.7)
+}
+
+.priority5 {
+    color:crimson;
+}
+.priority4 {
+    color:rgb(211, 105, 98);
+}
+.priority3 {
+    color:rgb(230, 166, 47);
+}
+.priority2 {
+    color:rgb(164, 247, 88);
+}
+.priority1 {
+    color:rgb(21, 163, 56);
 }

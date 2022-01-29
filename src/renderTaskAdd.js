@@ -1,6 +1,7 @@
 export { renderTaskAdd }
 export { renderTasks} 
 import { newTask } from "./newTask"
+import { addDays } from 'date-fns'
 
 //Creates dom elements that comprise task add section,
 //adds listener to 'Create Task' button
@@ -21,6 +22,11 @@ function renderTaskAdd() {
     taskDescriptionInput.classList.add('taskInput')
     taskDescriptionInput.type = "text"
 
+    let taskDateInput = document.createElement('input')
+    taskDateInput.id = 'taskDateInput'
+    taskDateInput.classList.add("taskInput")
+    taskDateInput.type = 'date'
+
     let taskPrioritySelect = document.createElement('select')
     taskPrioritySelect.id = "taskPrioritySelect"
     let priorities = [5,4,3,2,1]
@@ -39,6 +45,7 @@ function renderTaskAdd() {
 
     taskAddContainer.appendChild(taskNameInput)
     taskAddContainer.appendChild(taskDescriptionInput)
+    taskAddContainer.appendChild(taskDateInput)
     taskAddContainer.appendChild(taskPrioritySelect)
     taskAddContainer.appendChild(taskAddBtn)
     container1.appendChild(taskAddContainer)
@@ -65,15 +72,39 @@ function renderTasks(proj){
         taskDescription.id = 'taskDescription'
         taskDescription.textContent = task.description
 
+        let taskDate = document.createElement('div')
+        taskDate.id = 'taskDate'
+        taskDate.textContent = task.dueDate
+
         let taskPriority = document.createElement('taskPriority')
         taskPriority.id = 'taskPriority'
-        taskPriority.textContent = task.priority
+        taskPriority.innerHTML = '&#9679'
+        taskPriority.classList.add(assignPriorityColor(task))
 
 
         taskCard.appendChild(taskName)
         taskCard.appendChild(taskDescription)
+        taskCard.appendChild(taskDate)
         taskCard.appendChild(taskPriority)
         taskContainer.appendChild(taskCard)
 
     })
+}
+
+function assignPriorityColor(task){
+    if(task.priority == 5){
+        return 'priority5'
+    }
+    if(task.priority == 4){
+        return 'priority4'
+    }
+    if(task.priority == 3){
+        return 'priority3'
+    }
+    if(task.priority == 2){
+        return 'priority2'
+    }
+    if(task.priority == 1){
+        return 'priority1'
+    }
 }

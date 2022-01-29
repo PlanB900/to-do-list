@@ -1,5 +1,6 @@
 export {renderProjectAdd}
 export {renderHome}
+export { renderProjects }
 import { renderTasks } from "./renderTaskAdd"
 import {projects, createProject} from './createProject'
 
