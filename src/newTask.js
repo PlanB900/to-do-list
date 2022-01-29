@@ -1,6 +1,6 @@
 import { createTasks } from "./createTasks"
 import { renderTasks } from "./renderTaskAdd"
-import { currentProj } from "./renderHome"
+import { projects } from "./createProject"
 export {newTask}
 
 
@@ -14,10 +14,10 @@ function newTask() {
 
     if(validateInputs(inputs)){
         let task = createTasks(taskNameInput.value,taskDescriptionInput.value,taskPrioritySelect.value)
-        currentProj.addTask(task)
-       currentProj.sortTasks()
-       renderTasks(currentProj)
-       //add task to currentProj
+        projects.currentProj.addTask(task)
+        projects.currentProj.sortTasks()
+        renderTasks(projects.currentProj)
+        //add task to currentProj
     }
 }
 

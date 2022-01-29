@@ -28,7 +28,14 @@ let projects = {
 
     projectList: [],
     currentProj: undefined,
+
     setCurrentProj: function(){
         this.currentProj = this.projectList.find(proj => proj.isCurrentProj === true)
+    },
+
+    resetCurrentProj: function(){
+        this.projectList.forEach(proj => {
+            proj.isCurrentProj = false
+        })
     }
 }

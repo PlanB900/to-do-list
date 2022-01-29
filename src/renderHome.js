@@ -1,6 +1,5 @@
 export {renderProjectAdd}
 export {renderHome}
-export {currentProj}
 import { renderTasks } from "./renderTaskAdd"
 import {projects, createProject} from './createProject'
 
@@ -58,21 +57,16 @@ function renderProjectAdd() {
     projAddBtn.addEventListener('click', addProject)
 }
 
-//Used by multiple different functions. Indicative
-//of my main point of confusion with this project - I need to figure out
-//the best way to organize these modules 
-let currentProj
-
 //Re-searches DOM for input value, creates project and makes it currentProj,
 //calls renderTasks, calls renderProjects
 function addProject(){
     let projAddNameInput = document.getElementById('projAddNameInput').value
 
     if (projAddNameInput!= ""){
-        resetCurrentProj(projects.projectList)
-        currentProj = createProject(projAddNameInput)
-        projects.projectList.push(currentProj)
-        renderTasks(currentProj)
+        projects.resetCurrentProj()
+        projects.currentProj = createProject(projAddNameInput)
+        projects.projectList.push(projects.currentProj)
+        renderTasks(projects.currentProj)
         renderProjects(projects.projectList)
     }
 }
@@ -104,24 +98,17 @@ function renderProjects(array) {
 
         projViewContainer.appendChild(projCard)
 
-        //Listener sets targeted object to currentProj,
+        //Listener sets targeted project to currentProj,
         projCardBtn.addEventListener('click',()=>{
-            resetCurrentProj(projects.projectList)
+            projects.resetCurrentProj()
             proj.isCurrentProj = true;
             projects.setCurrentProj()
             renderTasks(projects.currentProj)
-            
         })
     })
 
 }
 
-//Take array of projects, set them all to false each time 'view project' is clicked so
-//that there is only ever one currentProj
-function resetCurrentProj(array) {
-    array.forEach(proj => {
-        proj.isCurrentProj = false
-    })
-}
+
 
 
