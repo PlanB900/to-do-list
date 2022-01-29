@@ -1,11 +1,12 @@
-export {renderTaskAdd}
-export {renderTasks}
-import { taskAddClickEvent } from "./taskAddClickEvent"
+export { renderTaskAdd }
+export { renderTasks} 
+import { newTask } from "./newTask"
 
+//Creates dom elements that comprise task add section,
+//adds listener to 'Create Task' button
 function renderTaskAdd() {
 
     let container1 = document.getElementById('container1')
-
 
     let taskAddContainer = document.createElement('div')
     taskAddContainer.id = "taskAddContainer"
@@ -33,7 +34,8 @@ function renderTaskAdd() {
     let taskAddBtn = document.createElement('button')
     taskAddBtn.classList.add('taskAddBtn')
     taskAddBtn.textContent = "Create Task"
-    taskAddBtn.addEventListener('click', taskAddClickEvent)
+    //Listener
+    taskAddBtn.addEventListener('click', newTask)
 
     taskAddContainer.appendChild(taskNameInput)
     taskAddContainer.appendChild(taskDescriptionInput)
@@ -42,6 +44,8 @@ function renderTaskAdd() {
     container1.appendChild(taskAddContainer)
 }
 
+//Takes a given project, resets container that displays tasks,
+//creates DOM elements for each task and puts them in conainer
 function renderTasks(proj){
     let taskContainer = document.getElementById('taskContainer')
 

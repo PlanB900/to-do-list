@@ -1,8 +1,9 @@
-export {createProject,projects}
+export {createProject, projects}
 
 function createProject(name) {
 
     let tasks = []
+    let isCurrentProj = false;
 
     function addTask(obj) {
         this.tasks.push(obj)
@@ -10,28 +11,24 @@ function createProject(name) {
 
     function sortTasks(){
         this.tasks.sort((a,b) => {
-            console.log('x')
             return a.priority - b.priority;
         })
     }
 
     return{
-        currentProj:false,
         name: name,
+        isCurrentProj,
         tasks,
         sortTasks,
         addTask
     }
 }
 
-let projects = (()=>{
+let projects = {
 
-
-    let projectList = []
-    let currentProject
-
-    return {
-        projectList,
-        currentProject
+    projectList: [],
+    currentProj: undefined,
+    setCurrentProj: function(){
+        this.currentProj = this.projectList.find(proj => proj.isCurrentProj === true)
     }
-})()
+}

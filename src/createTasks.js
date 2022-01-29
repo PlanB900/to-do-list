@@ -1,11 +1,12 @@
 export {createTasks}
 
-function createTasks(name, description, priority){
+function createTasks(name, description, priority, dueDate){
     
 
     return {
         name: name,
         description: description,
-        priority: priority
+        priority: priority,
+        dueDate
     }
 }

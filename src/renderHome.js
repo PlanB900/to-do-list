@@ -4,6 +4,7 @@ export {currentProj}
 import { renderTasks } from "./renderTaskAdd"
 import {projects, createProject} from './createProject'
 
+//Creates and displays dom elements for header area
 function renderHome(){
     let content = document.getElementById('content')
     while(content.firstChild){
@@ -19,11 +20,10 @@ function renderHome(){
 
     content.appendChild(block1)
     block1.appendChild(title)
-
 }
 
-
-
+//Renders section where user creates new projects,
+//Attaches listener to add project button
 function renderProjectAdd() {
     let content = document.getElementById('content')
 
@@ -57,8 +57,14 @@ function renderProjectAdd() {
     //Listener
     projAddBtn.addEventListener('click', addProject)
 }
+
+//Used by multiple different functions. Indicative
+//of my main point of confusion with this project - I need to figure out
+//the best way to organize these modules 
 let currentProj
 
+//Re-searches DOM for input value, creates project and makes it currentProj,
+//calls renderTasks, calls renderProjects
 function addProject(){
     let projAddNameInput = document.getElementById('projAddNameInput').value
 
@@ -71,7 +77,10 @@ function addProject(){
     }
 }
 
-
+//Takes array of projects, clears project display container, 
+//generates DOM elements necessary,
+//attaches listener to view project button on each project
+//Biggest issue in the whole project is this function
 function renderProjects(array) {
     
     while(projViewContainer.firstChild){
@@ -95,12 +104,12 @@ function renderProjects(array) {
 
         projViewContainer.appendChild(projCard)
 
-        //Listener
+        //Listener sets targeted object to currentProj,
         projCardBtn.addEventListener('click',()=>{
             resetCurrentProj(projects.projectList)
-            proj.currentProj = true;
-            currentProj = projects.projectList.find(proj => proj.currentProj === true)
-            renderTasks(currentProj)
+            proj.isCurrentProj = true;
+            projects.setCurrentProj()
+            renderTasks(projects.currentProj)
             
         })
     })
@@ -111,7 +120,7 @@ function renderProjects(array) {
 //that there is only ever one currentProj
 function resetCurrentProj(array) {
     array.forEach(proj => {
-        proj.currentProj = false
+        proj.isCurrentProj = false
     })
 }
 
