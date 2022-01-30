@@ -3,7 +3,7 @@ export {createProject, projects}
 function createProject(name) {
 
     let tasks = []
-    let isCurrentProj = false;
+    let isCurrentProj = true;
 
     function addTask(obj) {
         this.tasks.push(obj)
@@ -15,12 +15,17 @@ function createProject(name) {
         })
     }
 
+    function deleteTask(index){
+        this.tasks.splice(index, 1)
+    }
+
     return{
         name: name,
         isCurrentProj,
         tasks,
         sortTasks,
-        addTask
+        addTask,
+        deleteTask
     }
 }
 
@@ -37,5 +42,11 @@ let projects = {
         this.projectList.forEach(proj => {
             proj.isCurrentProj = false
         })
+    },
+
+    deleteProject: function(index){
+        this.projectList.splice(index, 1)
     }
+
+
 }

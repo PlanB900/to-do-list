@@ -1,7 +1,6 @@
 import "./assets/styles.css"
 import { createProject } from "./createProject"
-import { renderHome, renderProjectAdd } from "./renderHome"
-import { renderTaskAdd } from "./renderTaskAdd"
+import { renderHome, renderProjectAdd, renderTaskAdd } from "./ui"
 
 renderHome()
 renderProjectAdd()

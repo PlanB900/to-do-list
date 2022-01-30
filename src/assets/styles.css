@@ -60,6 +60,10 @@ body {
 
 }
 
+.currentProj {
+    background-color:gray;
+}
+
 #taskAddContainer {
     display:flex;
     flex-flow:column nowrap;
