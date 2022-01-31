@@ -46,7 +46,32 @@ let projects = {
 
     deleteProject: function(index){
         this.projectList.splice(index, 1)
+    },
+
+    //Restores methods to data that was stored in localStorage
+    restoreMethods: function(){
+
+        let restoredList = []
+
+        this.projectList.forEach(proj => {
+            let restoredProj = createProject()
+
+            for( var key in proj){
+                if(proj.hasOwnProperty(key)){
+                    restoredProj[key] = proj[key]
+                }
+            }
+            restoredList.push(restoredProj)
+        })
+        projects.projectList = restoredList
     }
 
 
+}
+
+if(localStorage.getItem('projects')){
+
+   let x = JSON.parse(localStorage.getItem('projects'))
+   projects.projectList = x.projectList
+   projects.restoreMethods()
 }

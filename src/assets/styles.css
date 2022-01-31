@@ -1,17 +1,22 @@
 html {
     display:flex;
     flex-flow:column nowrap;
+
+    height:100%;
 }
 
 body {
     display:flex;
     flex-flow:column nowrap;
+
+    height:100%;
 }
 
 #content {
     display:flex;
     flex-flow:column nowrap;
-    align-items:center;
+
+    height:100%;
 }
 
 #block1 {
@@ -20,31 +25,60 @@ body {
     align-items: center;
 
     gap:30px;
-    margin-top:100px;
+    margin-top:20px;
+    margin-bottom:10px;
     font-size:50px;
-
 }
 
 #container1 {
     display:flex;
     flex-flow:row wrap;
+    justify-content:flex-start;
+
+    height:100%;
+}
+
+#container2 {
+    width:400px;
+    height:auto;
+    background-color:rgb(173, 173, 173)
 }
 
 #taskContainer {
     display:flex;
     flex-flow:column nowrap;
+    flex-grow:1;
 
-    width:500px;
-    margin-top:50px;
     border-style:solid;
     border-width:1px;
     border-radius:4px;
+    padding:120px;
 }
 
 #projAddContainer {
     display:flex;
     flex-flow:column nowrap;
     align-items:center;
+
+    padding:20px;
+    gap:5px;
+    margin-bottom:50px;
+}
+
+#taskAddContainer {
+    display:flex;
+    flex-flow:column nowrap;
+    
+    padding:5px;
+}
+
+#taskPrioritySelect {
+    width:100px;
+}
+
+.taskAddBtn {
+    width:100px;
+    float:right;
 }
 
 .projCard {
@@ -64,10 +98,6 @@ body {
     background-color:gray;
 }
 
-#taskAddContainer {
-    display:flex;
-    flex-flow:column nowrap;
-}
 
 #taskCard {
     display:flex;
@@ -76,6 +106,10 @@ body {
 
     border-style:solid;
     border-width:1px;
+}
+
+#taskDeleteBtn {
+    width:50px;
 }
 
 input {

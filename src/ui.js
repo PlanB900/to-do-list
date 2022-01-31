@@ -1,7 +1,8 @@
-export {renderHome, renderProjectAdd, renderTaskAdd}
+export {renderHome, renderProjectAdd, renderTaskAdd, renderProjects, renderTasks}
 import {projects, createProject} from './createProject'
 import { addDays } from 'date-fns'
 import { createTasks } from "./createTasks"
+
 
 
 
@@ -31,6 +32,9 @@ function renderProjectAdd() {
     let container1 = document.createElement('div')
     container1.id = 'container1'
 
+    let container2 = document.createElement('div')
+    container2.id = 'container2'
+
     let projAddContainer = document.createElement('div')
     projAddContainer.id = "projAddContainer"
 
@@ -51,7 +55,8 @@ function renderProjectAdd() {
     projAddContainer.appendChild(projAddNameInput)
     projAddContainer.appendChild(projAddBtn)
     projAddContainer.appendChild(projViewContainer)
-    container1.appendChild(projAddContainer)
+    container2.appendChild(projAddContainer)
+    container1.appendChild(container2)
     container1.appendChild(taskContainer)
     content.appendChild(container1)
 
@@ -88,7 +93,10 @@ function renderProjects(projectList) {
 
         let projCard = document.createElement('div')
         projCard.classList.add('projCard')
-        if(proj.isCurrentProj){projCard.classList.add('currentProj')}
+        if(proj.isCurrentProj){
+            projects.setCurrentProj()
+            projCard.classList.add('currentProj')
+        }
 
         let projCardName = document.createElement('div')
         projCardName.classList.add('projCardName')
@@ -109,6 +117,7 @@ function renderProjects(projectList) {
             projects.setCurrentProj()
             renderTasks(projects.currentProj)
 
+        localStorage.setItem('projects', JSON.stringify(projects))
         })
     })
 
@@ -123,6 +132,9 @@ function removeProject(){
     projects.currentProj = undefined
     renderProjects(projects.projectList)
     renderTasks(projects.currentProj)
+
+    localStorage.setItem('projects', JSON.stringify(projects))
+
 }
 
 function assignCurrentProjClass(e){
@@ -137,7 +149,7 @@ function assignCurrentProjClass(e){
 //adds listener to 'Create Task' button
 function renderTaskAdd() {
 
-    let container1 = document.getElementById('container1')
+    let container2 = document.getElementById('container2')
 
     let taskAddContainer = document.createElement('div')
     taskAddContainer.id = "taskAddContainer"
@@ -146,17 +158,25 @@ function renderTaskAdd() {
     taskNameInput.id = "taskNameInput"
     taskNameInput.classList.add('taskInput')
     taskNameInput.type = "text"
+    taskNameInput.placeholder = "Task"
 
     let taskDescriptionInput = document.createElement('input')
     taskDescriptionInput.id = "taskDescriptionInput"
     taskDescriptionInput.classList.add('taskInput')
     taskDescriptionInput.type = "text"
+    taskDescriptionInput.placeholder = "Description"
 
+    let taskDateText = document.createElement('div')
+    taskDateText.id = taskDateText
+    taskDateText.textContent = "Due date:"
     let taskDateInput = document.createElement('input')
     taskDateInput.id = 'taskDateInput'
     taskDateInput.classList.add("taskInput")
     taskDateInput.type = 'date'
 
+    let taskPriorityText = document.createElement('div')
+    taskPriorityText.id = "taskPriorityText"
+    taskPriorityText.textContent = 'Priority:'
     let taskPrioritySelect = document.createElement('select')
     taskPrioritySelect.id = "taskPrioritySelect"
     let priorities = [5,4,3,2,1]
@@ -171,14 +191,16 @@ function renderTaskAdd() {
     taskAddBtn.classList.add('taskAddBtn')
     taskAddBtn.textContent = "Create Task"
     //Listener
-    taskAddBtn.addEventListener('click', newTask)
+    taskAddBtn.addEventListener('click', addTask)
 
     taskAddContainer.appendChild(taskNameInput)
     taskAddContainer.appendChild(taskDescriptionInput)
+    taskAddContainer.appendChild(taskDateText)
     taskAddContainer.appendChild(taskDateInput)
+    taskAddContainer.appendChild(taskPriorityText)
     taskAddContainer.appendChild(taskPrioritySelect)
     taskAddContainer.appendChild(taskAddBtn)
-    container1.appendChild(taskAddContainer)
+    container2.appendChild(taskAddContainer)
 }
 
 //Takes a given project, resets container that displays tasks,
@@ -190,6 +212,10 @@ function renderTasks(proj){
     while(taskContainer.firstChild){
         taskContainer.firstChild.remove()
     }
+
+    if(!proj){
+        return
+    }
     
     if(proj.tasks.length === 0){
         let deleteProjBtn = document.createElement('button')
@@ -197,7 +223,7 @@ function renderTasks(proj){
         deleteProjBtn.textContent = "Delete Project"
         taskContainer.appendChild(deleteProjBtn)
         //DeleteProjBtn listener
-        deleteProjBtn.addEventListener('click', removeProject)
+        deleteProjBtn.addEventListener('click', removeProject, { once: true})
     }
 
     proj.tasks.forEach(task => {
@@ -261,7 +287,7 @@ function assignPriorityColor(task){
 
 //Searches DOM for needed elements, validates input fields, then creates new task,
 //adds it to currentProj, calls render. Creates a current proj if there isn't one.
-function newTask() {
+function addTask() {
     let inputs = Array.from(document.getElementsByClassName('taskInput'))
     let taskNameInput = document.getElementById('taskNameInput')
     let taskDateInput = document.getElementById('taskDateInput')
@@ -274,10 +300,16 @@ function newTask() {
             projects.currentProj = createProject('Unnamed Project')
             projects.projectList.push(projects.currentProj)
             renderProjects(projects.projectList)
+
+        // localStorage.setItem('tasks', JSON.stringify(projects))
+
         }
         projects.currentProj.addTask(task)
         projects.currentProj.sortTasks()
         renderTasks(projects.currentProj)
+
+        localStorage.setItem('projects', JSON.stringify(projects))
+
     }
 }
 
@@ -301,4 +333,7 @@ function removeTask(e){
     let index = domTasks.indexOf(e.target.parentNode)
     projects.currentProj.deleteTask(index)
     renderTasks(projects.currentProj)
+
+    localStorage.setItem('projects', JSON.stringify(projects))
+
 }
